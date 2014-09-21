@@ -8,9 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var client: YelpClient!
-    
+    var yelpbusinesses = [YelpBusiness]()
+    @IBOutlet var tableView: UITableView!
     // You can register for Yelp API keys here: http://www.yelp.com/developers/manage_api_keys
     let yelpConsumerKey    = "NwlgK2WdEuPXN5-g6KYTsA"
     let yelpConsumerSecret = "EWFunrsvK2cqiJZ08E__g6ajqBM"
@@ -24,47 +25,63 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        tableView.delegate = self
+        tableView.dataSource = self
+        //tableView.rowHeight = UITableViewAutomaticDimension
         client = YelpClient(consumerKey: yelpConsumerKey, consumerSecret: yelpConsumerSecret, accessToken: yelpToken, accessSecret: yelpTokenSecret)
         
         client.searchWithTerm("Thai", success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             //println(response)
-            var tempArray = response.objectForKey("businesses") as NSArray
-            for item in tempArray {
-                var itemDictionary = item as NSDictionary
-                println(itemDictionary.objectForKey("name") as NSString)
-                println(itemDictionary.objectForKey("review_count") as NSNumber)
-                var loc = itemDictionary.objectForKey("location") as NSDictionary
-                var disAddress = loc.objectForKey("display_address") as NSArray
-                var streetAddress = disAddress[0]  as NSString
-                var neighborhood = disAddress[1] as NSString
-                println(itemDictionary.objectForKey("image_url") as NSString)
-                println(itemDictionary.objectForKey("rating_img_url") as NSString)
-                println(streetAddress+","+neighborhood)
-                var cats = itemDictionary.objectForKey("categories") as NSArray
-                var catString = "" as NSString
-                for cat in cats {
-                    if(catString.length > 0 ) {
-                      catString = catString + ", " + (cat[0] as NSString)
-                    } else {
-                      catString = catString + (cat[0] as NSString)
-                    }
-
-                }
-                println(catString)
-                
-                println("--")
+            let json = JSON(response)
+            for (i, j) in json["businesses"] {
+                self.yelpbusinesses.append(YelpBusiness(fromJson: j))
             }
-            //println(tempArray)
+            self.tableView.reloadData()
+            
         }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
             println(error)
         }
+        prepareSearchBar()
+    
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return yelpbusinesses.count
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCellWithIdentifier("yelpCell") as yelpCell
+        let business = yelpbusinesses[indexPath.row]
+        cell.updateCell(business, number: indexPath.row + 1)
+        return cell
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    func prepareSearchBar(){
+        
+        var searchBar = UISearchBar(frame: CGRectMake(0.0, 0.0, 300, 44.0))
+        searchBar.autoresizingMask = UIViewAutoresizing.FlexibleRightMargin
+        searchBar.backgroundColor = UIColor.clearColor()
+        self.navigationItem.titleView = searchBar
+        self.navigationController?.navigationBar.barTintColor = UIColor.redColor()
+        
+        var filterButton = UIButton(frame: CGRectMake(0, 0, 50.0, 44.0))
+        filterButton.setTitle("Filters", forState: UIControlState.Normal)
+        filterButton.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 14.0)
+        filterButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        filterButton.setTitleColor(UIColor.redColor(), forState: UIControlState.Highlighted)
+        
+        let leftHackItem = UIBarButtonItem(customView: filterButton)
+        self.navigationItem.leftBarButtonItem = leftHackItem
+        
+        var emptyView = UIView(frame: CGRectMake(0, 0, 40.0, 44.0))
+        let rightHackItem = UIBarButtonItem(customView: emptyView)
+        self.navigationItem.rightBarButtonItem = rightHackItem
+
+        
+    }
     
 }
 
