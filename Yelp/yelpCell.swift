@@ -16,6 +16,7 @@ class yelpCell: UITableViewCell {
     @IBOutlet var categoryLabel: UILabel!
     @IBOutlet var starsImageView: UIImageView!
     @IBOutlet var posterImageView: UIImageView!
+    @IBOutlet var distanceLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,6 +42,7 @@ class yelpCell: UITableViewCell {
             }
         }
         categoryLabel.text = categoryString
+        //distanceLabel.text = "\(business.distance)" + " miles"
         starsImageView.setImageWithURL(NSURL(string: business.ratingImgURL!))
         posterImageView.setImageWithURLRequest(
             NSURLRequest(URL: NSURL(string: business.imageURL!)),

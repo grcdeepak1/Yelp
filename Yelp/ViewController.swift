@@ -80,6 +80,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationItem.titleView = searchBar
         self.navigationController?.navigationBar.barTintColor = UIColor.redColor()
         
+        /*
         var filterButton = UIButton(frame: CGRectMake(0, 0, 50.0, 44.0))
         filterButton.setTitle("Filters", forState: UIControlState.Normal)
         filterButton.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 14.0)
@@ -93,12 +94,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var emptyView = UIView(frame: CGRectMake(0, 0, 40.0, 44.0))
         let rightHackItem = UIBarButtonItem(customView: emptyView)
         self.navigationItem.rightBarButtonItem = rightHackItem
+        */
     }
 
     // MARK: - UISearchBarDelegate
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         fetchDataForSearchTerm(searchBar.text as NSString)
+    }
+    //MARK: - Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        var filtersNavigationController = segue.destinationViewController as UINavigationController
+        //var filterViewController = filtersNavigationController.viewControllers[0] as filterViewController
+        //filterViewController.delegate = self
+        
     }
     
 }
