@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0057927519D1181300566BFD /* filterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057927419D1181300566BFD /* filterViewController.swift */; };
+		0057927C19D26B0F00566BFD /* priceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057927B19D26B0F00566BFD /* priceCell.swift */; };
+		0057927E19D26B2400566BFD /* distanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057927D19D26B2400566BFD /* distanceCell.swift */; };
+		0057928019D26B3500566BFD /* PopularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057927F19D26B3500566BFD /* PopularCell.swift */; };
 		008D674F19CE6BF200FB32E5 /* yelpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008D674E19CE6BF200FB32E5 /* yelpCell.swift */; };
 		008D675119CE779200FB32E5 /* json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008D675019CE779200FB32E5 /* json.swift */; };
 		008D675319CE785300FB32E5 /* business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008D675219CE785300FB32E5 /* business.swift */; };
@@ -33,6 +36,9 @@
 
 /* Begin PBXFileReference section */
 		0057927419D1181300566BFD /* filterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = filterViewController.swift; sourceTree = "<group>"; };
+		0057927B19D26B0F00566BFD /* priceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = priceCell.swift; sourceTree = "<group>"; };
+		0057927D19D26B2400566BFD /* distanceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = distanceCell.swift; sourceTree = "<group>"; };
+		0057927F19D26B3500566BFD /* PopularCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopularCell.swift; sourceTree = "<group>"; };
 		008D674E19CE6BF200FB32E5 /* yelpCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = yelpCell.swift; sourceTree = "<group>"; };
 		008D675019CE779200FB32E5 /* json.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = json.swift; sourceTree = "<group>"; };
 		008D675219CE785300FB32E5 /* business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = business.swift; sourceTree = "<group>"; };
@@ -71,6 +77,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0057927619D13EF000566BFD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				008D675219CE785300FB32E5 /* business.swift */,
+				008D675019CE779200FB32E5 /* json.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		0057927719D13EFB00566BFD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				008D674E19CE6BF200FB32E5 /* yelpCell.swift */,
+				0057927B19D26B0F00566BFD /* priceCell.swift */,
+				0057927D19D26B2400566BFD /* distanceCell.swift */,
+				0057927F19D26B3500566BFD /* PopularCell.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		0057927819D13F1F00566BFD /* App */ = {
+			isa = PBXGroup;
+			children = (
+				222D8A5A19CCF9F900D2DB53 /* AppDelegate.swift */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
 		222D8A4C19CCF9F900D2DB53 = {
 			isa = PBXGroup;
 			children = (
@@ -94,10 +128,12 @@
 		222D8A5719CCF9F900D2DB53 /* Yelp */ = {
 			isa = PBXGroup;
 			children = (
-				222D8A7A19CCFAAA00D2DB53 /* API */,
-				222D8A7B19CCFAB600D2DB53 /* View Controllers */,
-				222D8A5A19CCF9F900D2DB53 /* AppDelegate.swift */,
 				222D8A5E19CCF9F900D2DB53 /* Main.storyboard */,
+				0057927719D13EFB00566BFD /* View */,
+				222D8A7B19CCFAB600D2DB53 /* View Controllers */,
+				0057927619D13EF000566BFD /* Model */,
+				222D8A7A19CCFAAA00D2DB53 /* API */,
+				0057927819D13F1F00566BFD /* App */,
 				222D8A6119CCF9F900D2DB53 /* Images.xcassets */,
 				222D8A6319CCF9F900D2DB53 /* LaunchScreen.xib */,
 				222D8A5819CCF9F900D2DB53 /* Supporting Files */,
@@ -110,9 +146,6 @@
 			isa = PBXGroup;
 			children = (
 				222D8A5919CCF9F900D2DB53 /* Info.plist */,
-				008D674E19CE6BF200FB32E5 /* yelpCell.swift */,
-				008D675019CE779200FB32E5 /* json.swift */,
-				008D675219CE785300FB32E5 /* business.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -294,11 +327,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0057927E19D26B2400566BFD /* distanceCell.swift in Sources */,
 				222D8A5D19CCF9F900D2DB53 /* ViewController.swift in Sources */,
 				222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */,
+				0057928019D26B3500566BFD /* PopularCell.swift in Sources */,
 				008D675119CE779200FB32E5 /* json.swift in Sources */,
 				222D8A5B19CCF9F900D2DB53 /* AppDelegate.swift in Sources */,
 				008D674F19CE6BF200FB32E5 /* yelpCell.swift in Sources */,
+				0057927C19D26B0F00566BFD /* priceCell.swift in Sources */,
 				008D675319CE785300FB32E5 /* business.swift in Sources */,
 				0057927519D1181300566BFD /* filterViewController.swift in Sources */,
 			);

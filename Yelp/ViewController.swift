@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, filterViewControllerDelegate {
     var client: YelpClient!
     var yelpbusinesses = [YelpBusiness]()
     @IBOutlet var tableView: UITableView!
@@ -30,7 +30,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.dataSource = self
         //tableView.rowHeight = UITableViewAutomaticDimension
         
-        fetchDataForSearchTerm("Indian")
+        fetchDataForSearchTerm("Italian")
         prepareSearchBar()
     
     }
@@ -41,7 +41,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - fetchDataForSearchTerm
     func fetchDataForSearchTerm(term: NSString) {
         
-        
         client = YelpClient(consumerKey: yelpConsumerKey, consumerSecret: yelpConsumerSecret, accessToken: yelpToken, accessSecret: yelpTokenSecret)
         
         client.searchWithTerm(term, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
@@ -51,6 +50,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             for (i, j) in json["businesses"] {
                 self.yelpbusinesses.append(YelpBusiness(fromJson: j))
             }
+            
+            self.tableView.reloadData()
+            
+            }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                println(error)
+        }
+    }
+    
+    func fetchDataForSearchTermWithFilter(term: NSString, deals:Bool) {
+        
+        client = YelpClient(consumerKey: yelpConsumerKey, consumerSecret: yelpConsumerSecret, accessToken: yelpToken, accessSecret: yelpTokenSecret)
+        
+        client.searchWithFilters(term, deals: deals, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            //println(response)
+            let json = JSON(response)
+            self.yelpbusinesses.removeAll(keepCapacity: true)
+            for (i, j) in json["businesses"] {
+                self.yelpbusinesses.append(YelpBusiness(fromJson: j))
+            }
+            
             self.tableView.reloadData()
             
             }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
@@ -80,21 +99,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationItem.titleView = searchBar
         self.navigationController?.navigationBar.barTintColor = UIColor.redColor()
         
-        /*
-        var filterButton = UIButton(frame: CGRectMake(0, 0, 50.0, 44.0))
-        filterButton.setTitle("Filters", forState: UIControlState.Normal)
-        filterButton.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 14.0)
-        filterButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        filterButton.setTitleColor(UIColor.redColor(), forState: UIControlState.Highlighted)
-
-        
-        let leftHackItem = UIBarButtonItem(customView: filterButton)
-        self.navigationItem.leftBarButtonItem = leftHackItem
-        
-        var emptyView = UIView(frame: CGRectMake(0, 0, 40.0, 44.0))
-        let rightHackItem = UIBarButtonItem(customView: emptyView)
-        self.navigationItem.rightBarButtonItem = rightHackItem
-        */
     }
 
     // MARK: - UISearchBarDelegate
@@ -104,11 +108,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     //MARK: - Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var filtersNavigationController = segue.destinationViewController as UINavigationController
-        //var filterViewController = filtersNavigationController.viewControllers[0] as filterViewController
-        //filterViewController.delegate = self
+        var nav = segue.destinationViewController as UINavigationController
         
+        if nav.viewControllers[0] is filterViewController {
+            var controller = nav.viewControllers[0] as filterViewController
+            controller.delegate = self
+        }
+    }
+    
+    func searchTermDidChange( term : String, deals: Bool) {
+        println("searchTermDidChange")
+        fetchDataForSearchTermWithFilter(term, deals: deals)
     }
     
 }
-

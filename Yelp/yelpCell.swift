@@ -32,7 +32,7 @@ class yelpCell: UITableViewCell {
     func updateCell(business : YelpBusiness, number: Int) {
         var categoryString : NSString = ""
         nameLabel.text = "\(number). \(business.name!)"
-        addressLabel.text = "\(business.address!), \(business.neighborhood!)"
+        addressLabel.text = "\(business.address?), \(business.neighborhood?)"
         numReviewLabel.text = "\(business.reviewcount!) Reviews"
         for eachCataegory in business.categories {
             if(categoryString != "") {
